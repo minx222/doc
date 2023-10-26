@@ -5,28 +5,42 @@
 apt-get remove docker docker-engine docker.io containerd runc
 ```
 
-### 更新软件包
+### 安装 依赖包
 ```sh
-sudo apt update
-sudo apt upgrade
+sudo apt-get install \
+   apt-transport-https \
+   ca-certificates \
+   curl \
+   gnupg-agent \
+   software-properties-common
 ```
 
-### 添加Docker官方GPG密钥
+### 添加 Docker 的官方 GPG 密钥
 ```sh
-sudo curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-get update
 ```
 
-### 安装docker依赖
+### 安装 Docker-ce
 ```sh
-sudo apt-get install ca-certificates curl gnupg lsb-release
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli docker-ce docker-ce-cli containerd.io
 ```
 
-### 添加Docker软件源
+### docker服务
 ```sh
-sudo add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+# 启动
+sudo service docker start
+ 
+# 停止
+sudo service docker stop
+ 
+# 重启
+sudo service docker restart
 ```
 
-### 安装docker
-```sh
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
