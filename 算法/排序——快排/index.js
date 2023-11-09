@@ -36,6 +36,4 @@ function swap(arr, i, j) {
 const arr = [1, 3, 2, 1, 5, 4];
 /**
  * [1, 3, 2, 1, 4, 5]
- * 
- * 
  */
