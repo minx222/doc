@@ -13,8 +13,6 @@ function partition(arr, left, right) {
 	const pivot = arr[right];
 	// 设置0位起点
 	let partitionIndex = left;
-	console.log(pivot, "pivot");
-	console.log(partitionIndex, "partitionIndex");
 
 	for (let i = left; i < right; i++) {
 		if (arr[i] < pivot) {
@@ -35,5 +33,16 @@ function swap(arr, i, j) {
 
 const arr = [1, 3, 2, 1, 5, 4];
 /**
- * [1, 3, 2, 1, 4, 5]
+ * 1 3 2 1 5 4 partitionIndex = 4
+ * 1 3 2 1 4 5
+ * 
+ * 1 3 2 1 		partitionIndex = 0
+ * 1 3 2 1
+ * 
+ * 3 2 1			partitionIndex = 0
+ * 1 2 3
+ * 
+ * 2 3				partitionIndex = 1
+ * 2 3
+ * 
  */
