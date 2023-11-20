@@ -10,17 +10,19 @@ export function debounce<A extends any[], R>(fn: (...args: A) => R, wait: number
 	let timer: NodeJS.Timeout | null = null
 	function dbFn(...args: A): Promise<R> {
 		return new Promise((resolve) => {
+			let context = this
 			if(timer !== null){
 				clearTimeout(timer);
 			}
 			// 处理特殊情况，刚好在第 wait 秒触发时
 			timer = setTimeout(()=> {
-				const r = fn(...args)
-				resolve(r)
+				const result = fn(...args)
+				resolve(result)
 			}, wait + 1);
 		})
 	}
 
+	// 取消
 	dbFn.cancel = function() {
 		if(timer !== null){
 			clearTimeout(timer)

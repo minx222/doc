@@ -1,24 +1,51 @@
-function ListNode(val, next) {
-    this.val = (val===undefined ? 0 : val)
-    this.next = (next===undefined ? null : next)
- }
-var reverseBookList = function(head) {
-    const arr = []
-    while(head !== null) {
-        arr.push(head.val)
-        head = head.next
-    }
-    let length = arr.length
-    const res = []
-    while(length > 0) {
-        res.push(arr.pop())
-        length--
-    }
-    return res
-};
+class RequestController {
+  constructor(maxConcurrent) {
+    this.maxConcurrent = maxConcurrent;
+    this.pending = 0;
+    this.queue = [];
+  }
 
-const head = new ListNode(1)
-head.next = new ListNode(2)
-head.next.next = new ListNode(3)
+  run(promiseCreator) {
+    return new Promise((resolve, reject) => {
+      this.queue.push({
+        resolve,
+        reject,
+        promise: promiseCreator()  
+      });
+      this.dequeue();
+    });
+  }
 
-console.log(reverseBookList(head))
+  dequeue() {
+    while(this.pending < this.maxConcurrent && this.queue.length) {
+      const item = this.queue.shift();
+      this.pending++;
+      item.promise
+        .then(result => {
+					console.log(item)
+          item.resolve(result);
+          this.pending--;
+          this.dequeue();
+        })
+        .catch(err => {
+          item.reject(err);
+          this.pending--;
+          this.dequeue();
+        });
+    }
+  }
+}
+
+const controller = new RequestController(5); 
+
+// 使用
+for(let i in 10) {
+	console.log(i)
+	controller.run(() => fetch('http://172.16.10.32:9002/api/services/app/External/GetIotParamsControlList?Id=GNM505'))
+  .then(response => {
+    console.log(response)
+  })
+  .catch(err => {
+   // handle error   
+  });
+}
