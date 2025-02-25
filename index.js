@@ -1,14 +1,16 @@
-const compose = (...args) => {
-    const dispatch = (index) => {
-        if (index === middlewares.length) {
-            return;
-        }
-        // 获取当前要执行的中间件
-        const middleware = middlewares[index];
-        // 调用当前中间件，并传入上下文对象和下一个中间件的调用函数
-        middleware(ctx, () => dispatch(index + 1));
+const Lst = (arr) => {
+    const result = [];
+
+    for (let i = 0; i < arr.length; i++) {
+       
     }
-    return function() {
-        
+
+    const update = (num) => {
+        for (let i = result.length - 1; i >= 0; i--) {
+            const cur = result[i];
+            if (cur[cur.length - 1] < num) {
+                cur.push(num);
+            }
+        }
     }
 }

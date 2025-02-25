@@ -67,6 +67,15 @@ export default defineConfig({
               },
             ]
           },
+          {
+            text: 'Webpack',
+            items: [
+              {
+                text: '生命周期',
+                link: '/src/build/webpack/life-cycle.md'
+              }
+            ]
+          }
         ]
       }
     ],
